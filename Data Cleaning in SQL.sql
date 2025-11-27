@@ -15,15 +15,15 @@ EXEC sp_help 'NashvilleHousing';
 -- Standardize Date Format
 
 
--- Step 1 ¨C Add the column
+-- Add the column
 ALTER TABLE PortfolioProject..NashvilleHousing
 ADD SaleDateConverted DATE;
 
--- Step 2 ¨C Populate the column
+-- Populate the column
 UPDATE PortfolioProject..NashvilleHousing
 SET SaleDateConverted = CONVERT(DATE, SaleDate);
 
--- Step 3 ¨C Verify
+-- Verify
 SELECT SaleDate, SaleDateConverted
 FROM PortfolioProject..NashvilleHousing
 ORDER BY SaleDate;
@@ -35,12 +35,12 @@ ORDER BY SaleDate;
 -- Populate Property Address data
 
 
--- Step 1: Preview the table
+-- Preview the table
 Select *
 From PortfolioProject.dbo.NashvilleHousing
 order by ParcelID
 
--- Step 2: Check rows to fill
+-- Check rows to fill
 Select a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL(a.PropertyAddress,b.PropertyAddress)
 From PortfolioProject.dbo.NashvilleHousing a
 JOIN PortfolioProject.dbo.NashvilleHousing b
@@ -48,7 +48,7 @@ JOIN PortfolioProject.dbo.NashvilleHousing b
 	AND a.[UniqueID ] <> b.[UniqueID ]
 Where a.PropertyAddress is null
 
--- Step 3: Update missing addresses
+-- Update missing addresses
 Update a
 SET PropertyAddress = ISNULL(a.PropertyAddress,b.PropertyAddress)
 From PortfolioProject.dbo.NashvilleHousing a
@@ -213,3 +213,4 @@ From PortfolioProject.dbo.NashvilleHousing
 
 ALTER TABLE PortfolioProject.dbo.NashvilleHousing
 DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
+
